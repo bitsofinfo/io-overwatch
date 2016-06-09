@@ -1,0 +1,53 @@
+{
+    "name":"io-overwatch",
+    "version":"1.0.0-beta.1",
+    "description":"Simple io-event-reactor based daemon for monitoring changes within one or more directories, copying, moving, extracting files and logging in mysql",
+    "main":"overwatch.js",
+    "directories":{
+        "test":"test"
+    },
+    "scripts":{
+        "test":"mocha test/all.js"
+    },
+    "keywords":[
+        "io",
+        "event",
+        "monitor",
+        "changes",
+        "alert",
+        "watch",
+        "file",
+        "directory",
+        "filesystem",
+        "directories"
+    ],
+    "dependencies": {
+        "mustache":"latest",
+        "dateformat":"latest",
+        "winston-daily-rotate-file":"latest",
+        "winston": "latest",
+        "yargs": "latest",
+        "io-event-reactor": "latest",
+        "io-event-reactor-plugin-chokidar": "latest",
+        "io-event-reactor-plugin-mysql": "latest",
+        "io-event-reactor-plugin-shell-exec": "latest"
+    },
+    "devDependencies":{
+        "mocha":"latest"
+    },
+    "contributors":[
+        {
+            "name":"bitsofinfo",
+            "url":"http://bitsofinfo.wordpress.com"
+        }
+    ],
+    "license":"ISC",
+    "repository":{
+        "type":"git",
+        "url":"https://github.com/bitsofinfo/io-overwatch.git"
+    },
+    "bugs":{
+        "url":"https://github.com/bitsofinfo/io-overwatch/issues"
+    },
+    "homepage":"https://github.com/bitsofinfo/io-overwatch"
+}
