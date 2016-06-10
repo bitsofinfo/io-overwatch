@@ -3,6 +3,7 @@
 var dateFormat = require('dateformat');
 var Mustache = require('mustache');
 var util = require('util');
+var process = require('process');
 
 /********************************
 * Command line argument handling
@@ -64,9 +65,9 @@ var argv = require("yargs")
         .array('reactor.sqlInsert.values')
         .describe('reactor.sqlInsert.values','Space separated list of column values. Variables apply.')
 
-    .demand('reactor.shell.uid')
+    .default('reactor.shell.uid',process.getuid())
         .describe('reactor.shell.uid','uid to run shell commands as')
-    .demand('reactor.shell.gid')
+    .default('reactor.shell.gid',process.getgid())
         .describe('reactor.shell.gid','gid to run shell commands as')
 
     .demand('reactor.db.host')
@@ -105,7 +106,9 @@ winston.add(require('winston-daily-rotate-file'),
 winston.level = argv.logging.level;
 
 var logCallback = function(severity, origin, message) {
-    winston.log(severity,origin + " - " + message);
+    if (origin != 'Pool') {
+        winston.log(severity,origin + " - " + message);
+    }
 };
 
 var errorCallback = function(message,error) {
