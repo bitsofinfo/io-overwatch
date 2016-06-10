@@ -1,6 +1,6 @@
 {
     "name":"io-overwatch",
-    "version":"1.0.0-beta.2",
+    "version":"1.0.0-beta.3",
     "description":"io-event-reactor based daemon for monitoring changes within one or more directories; then reacting by making directories, copying, moving, extracting files or inserting audit records into a database",
     "main":"overwatch.js",
     "directories":{
@@ -22,6 +22,7 @@
         "directories"
     ],
     "dependencies": {
+        "stateful-process-command-proxy":"latest",
         "mustache":"latest",
         "dateformat":"latest",
         "winston-daily-rotate-file":"latest",
