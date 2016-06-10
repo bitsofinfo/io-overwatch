@@ -4,6 +4,7 @@ var dateFormat = require('dateformat');
 var Mustache = require('mustache');
 var util = require('util');
 var process = require('process');
+var StatefulProcessCommandProxy = require('stateful-process-command-proxy');
 
 /********************************
 * Command line argument handling
@@ -122,6 +123,13 @@ var IoReactorService = require("io-event-reactor");
 var EvaluatorUtil = require('io-event-reactor/ioReactor').EvaluatorUtil;
 
 
+/**
+* generateSqlInsert - generates a new io-event-reactor-plugin-mysql plugin config
+*
+* @param reactorId id of the reactor to create
+* @param sqlTemplates
+* @param sqlGenerator
+*/
 function generateSqlInsert(reactorId, sqlTemplates, sqlGenerator) {
     return {  id: reactorId,
               plugin: "io-event-reactor-plugin-mysql",
@@ -141,25 +149,50 @@ function generateSqlInsert(reactorId, sqlTemplates, sqlGenerator) {
             };
 }
 
+// we only maintain one proxy instance despite multiple shell command reactors
+var statefulProcessCommandProxy = null;
+
+// generate a shell proxy instance
+function getStatefulProcessCommandProxyInstance() {
+
+    if (statefulProcessCommandProxy != null) {
+        return statefulProcessCommandProxy;
+    } else {
+        statefulProcessCommandProxy = new StatefulProcessCommandProxy({
+                                            name: "statefulProcessCommandProxy",
+                                            max: 2,
+                                            min: 1,
+                                            idleTimeoutMS: 300000,
+                                            logFunction: logCallback,
+                                            uid: argv.reactor.shell.uid,
+                                            gid: argv.reactor.shell.gid,
+                                            processCommand: '/bin/bash',
+                                            processArgs:  ['-s'],
+                                            processRetainMaxCmdHistory : 10,
+                                            processCwd : './',
+                                            validateFunction: function(processProxy) {
+                                                return processProxy.isValid();
+                                            }
+                                        });
+    }
+
+    return statefulProcessCommandProxy;
+
+}
+
+/**
+* generateShellExec - generates a new io-event-reactor-plugin-shell-exec plugin config
+*
+* @param reactorId id of the reactor to create
+* @param cmdTemplates
+* @param cmdGenerator
+*/
 function generateShellExec(reactorId, cmdTemplates, cmdGenerator) {
     return {  id: reactorId,
               plugin: "io-event-reactor-plugin-shell-exec",
               config: {
                   statefulProcessCommandProxy: {
-                      name: reactorId,
-                      max: 1,
-                      min: 1,
-                      idleTimeoutMS: 300000,
-                      logFunction: logCallback,
-                      uid: argv.reactor.shell.uid,
-                      gid: argv.reactor.shell.gid,
-                      processCommand: '/bin/bash',
-                      processArgs:  ['-s'],
-                      processRetainMaxCmdHistory : 10,
-                      processCwd : './',
-                      validateFunction: function(processProxy) {
-                          return processProxy.isValid();
-                      }
+                      instance: getStatefulProcessCommandProxyInstance()
                   },
                   commandTemplates: cmdTemplates,
                   commandGenerator: cmdGenerator
@@ -167,6 +200,13 @@ function generateShellExec(reactorId, cmdTemplates, cmdGenerator) {
             };
 }
 
+/**
+* generateShellExec - generates a higher level file io reactor
+*
+* @param reactorType
+* @param reactorId id of the reactor to create
+* @param target target path
+*/
 function generateFileIoReactor(reactorType, reactorId, target) {
     var cmdTemplates = null;
     var cmdGenerator = null;
@@ -221,6 +261,13 @@ function generateFileIoReactor(reactorType, reactorId, target) {
     return generateShellExec(reactorId,cmdTemplates,cmdGenerator);
 }
 
+/**
+* generateSqlReactor - generates a higher level sql op reactor
+*
+* @param reactorType
+* @param reactorId id of the reactor to create
+* @param target target path
+*/
 function generateSqlReactor(reactorType, reactorId, table, columns, values) {
     var sqlTemplates = null;
     var sqlGenerator = null;
@@ -245,6 +292,11 @@ function generateSqlReactor(reactorType, reactorId, table, columns, values) {
 }
 
 
+/**
+* generateReactors()
+*
+* generate all requested reactors in order
+*/
 function generateReactors() {
     var reactors = [];
 
@@ -345,6 +397,7 @@ var ioReactorServiceConfig = {
 };
 
 
-console.log(util.inspect(ioReactorServiceConfig,{depth:10}));
+//console.log(util.inspect(ioReactorServiceConfig,{depth:10}));
 
+// launch!
 var reactor = new IoReactorService(ioReactorServiceConfig);
