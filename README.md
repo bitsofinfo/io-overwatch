@@ -73,14 +73,14 @@ Options:
   --reactor.db.name             database name                         [required]
 
 For certain options you can use the following variables:
- {{ioEvent.context.timestamp}}
- {{ioEvent.eventType}}
- {{ioEvent.fullPath}}
- {{ioEvent.parentPath}}
- {{ioEvent.parentName}}
- {{ioEvent.filename}}
- {{ioEvent.uuid}}
- {{ioEvent.context.[copyAll | copyFile | moveAll | moveFile | extractFileTo].target}}
+ {{{ioEvent.context.timestamp}}}
+ {{{ioEvent.eventType}}}
+ {{{ioEvent.fullPath}}}
+ {{{ioEvent.parentPath}}}
+ {{{ioEvent.parentName}}}
+ {{{ioEvent.filename}}}
+ {{{ioEvent.uuid}}}
+ {{{ioEvent.context.[copyAll | copyFile | moveAll | moveFile | extractFileTo].target}}}
  ```
 
 ## Usage samples table: (mysql)
