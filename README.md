@@ -108,6 +108,12 @@ as triggering file to the target dir, and then insert a sql record
 of the event.
 
 ```
+pm2 start sample1.pm2.json
+```
+
+OR
+
+```
 mkdir /tmp/bitsofinfo
 
 node overwatch.js dir  \
@@ -135,6 +141,13 @@ Monitor one dir, when any file matching zip/tgz/gz is changed
 make a new target directory, extract the zip/tgz to the target dir, then move all files in the same directory
 as triggering file to the target dir, and then insert a sql record
 of the event.
+
+```
+pm2 start sample2.pm2.json
+```
+
+OR
+
 
 ```
 mkdir /tmp/bitsofinfo
