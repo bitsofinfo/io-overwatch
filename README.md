@@ -1,5 +1,72 @@
 # io-overwatch
 
+[io-event-reactor](https://github.com/bitsofinfo/io-event-reactor) based daemon for monitoring changes within one or more directories;
+then reacting by making directories, copying, moving, extracting files or inserting audit records into a database.
+
+## Usage
+
+```
+>$ node overwatch.js
+
+Usage: overwatch.js <command> [options]
+
+Commands:
+  dir  Monitor a directory and react to changes
+
+Options:
+  --logging.file                Full path to log file                 [required]
+  --logging.level               Logging level
+         [choices: "error", "warn", "info", "verbose", "info", "debug", "silly"]
+                                                              [default: "debug"]
+  --monitor.dir                 Directory to monitor                  [required]
+  --monitor.stabilityThreshold   Milliseconds for file sizes to remain constant
+                                 before reacting.               [default: 30000]
+  --evaluator.events            Space separated list of relevant event types
+  [array] [required] [choices: "add", "addDir", "change", "unlink", "unlinkDir"]
+  --evaluator.regex             Regex to apply to ioEvent.fullPath to trigger
+                                reactors                              [required]
+  --evaluator.reactors          Ordered list of reactors
+	[array] [required] [choices: "mkdir", "copyFile", "moveFile", "copyAll",
+                                          "moveAll", "extractFile", "sqlInsert"]
+  --reactor.mkdir.dir           Target dir create. Variables apply.
+                                                                 [default: null]
+  --reactor.copyAll.target      Target dir to copy all files in monitored dir
+                                TO. Variables apply.             [default: null]
+  --reactor.moveAll.target      Target dir to move all files in monitored dir
+                                TO. Variables apply.             [default: null]
+  --reactor.copyFile.target     Target dir to copy evaluated file TO. Variables
+                                apply.                           [default: null]
+  --reactor.moveFile.target     Target dir to move evaluated file TO. Variables
+                                apply.                           [default: null]
+  --reactor.extractFile.target  Target dir to extract evaluated file TO.
+                                Variables apply.                 [default: null]
+  --reactor.sqlInsert.table     Table name for sql insert        [default: null]
+  --reactor.sqlInsert.columns   Space separated list of target table columns.
+                                                         [array] [default: null]
+  --reactor.sqlInsert.values    Space separated list of column values. Variables
+                                apply.                   [array] [default: null]
+  --reactor.shell.uid           uid to run shell commands as
+                                                           [default: 2146091417]
+  --reactor.shell.gid           gid to run shell commands as
+                                                           [default: 1028219364]
+  --reactor.db.host             database host                         [required]
+  --reactor.db.port             database port                    [default: 3306]
+  --reactor.db.user             database user                         [required]
+  --reactor.db.pw               database pw                           [required]
+  --reactor.db.name             database name                         [required]
+
+For certain options you can use the following variables:
+ {{ioEvent.context.timestamp}}
+ {{ioEvent.eventType}}
+ {{ioEvent.fullPath}}
+ {{ioEvent.parentPath}}
+ {{ioEvent.parentName}}
+ {{ioEvent.filename}}
+ {{ioEvent.uuid}}
+ ```
+
+## Usage samples table:
+
 ```
 CREATE TABLE `io_event` (
   `eventType` varchar(256) NOT NULL,
