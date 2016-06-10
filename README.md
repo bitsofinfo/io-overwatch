@@ -108,6 +108,7 @@ as triggering file to the target dir, and then insert a sql record
 of the event.
 
 ```
+mkdir /tmp/bitsofinfo
 pm2 start sample1.pm2.json
 ```
 
@@ -143,6 +144,7 @@ as triggering file to the target dir, and then insert a sql record
 of the event.
 
 ```
+mkdir /tmp/bitsofinfo
 pm2 start sample2.pm2.json
 ```
 
