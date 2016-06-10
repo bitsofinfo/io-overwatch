@@ -93,8 +93,11 @@ CREATE TABLE `io_event` (
   `filename` varchar(256) DEFAULT NULL,
   `uuid` varchar(256) DEFAULT NULL,
   `parentPath` varchar(256) DEFAULT NULL,
-  `parentName` varchar(256) DEFAULT NULL
+  `parentName` varchar(256) DEFAULT NULL,
+  `target` varchar(256) DEFAULT NULL,
+  `context` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 ```
 
 ## Usage sample one:
