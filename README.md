@@ -3,6 +3,8 @@
 [io-event-reactor](https://github.com/bitsofinfo/io-event-reactor) based daemon for monitoring changes within one or more directories;
 then reacting by making directories, copying, moving, extracting files or inserting audit records into a database.
 
+[![NPM](https://nodei.co/npm/io-overwatch.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/io-overwatch/)
+
 ## Usage
 
 ```
