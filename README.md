@@ -117,11 +117,11 @@ node overwatch.js dir  \
 	--reactor.mkdir.target=/tmp/{{{ioEvent.context.timestamp}}}/bitsofinfo_target \
 	--reactor.moveAll.target=/tmp/{{{ioEvent.context.timestamp}}}/bitsofinfo_target \
 	--reactor.sqlInsert.table=io_event \
-    --reactor.sqlInsert.columns=eventType fullPath filename parentPath timestamp uuid \
-	--reactor.sqlInsert.values="{{{ioEvent.eventType}}}" "{{{ioEvent.fullPath}}}" "{{{ioEvent.filename}}}" "{{{ioEvent.parentPath}}}" "{{{ioEvent.context.timestamp}}}" "{{{ioEvent.uuid}}}"\
+	--reactor.sqlInsert.columns=context eventType fullPath filename parentPath timestamp uuid parentName target \
+	--reactor.sqlInsert.values=moveAllToContext "{{{ioEvent.eventType}}}" "{{{ioEvent.fullPath}}}" "{{{ioEvent.filename}}}" "{{{ioEvent.parentPath}}}" "{{{ioEvent.context.timestamp}}}" "{{{ioEvent.uuid}}}" "{{{ioEvent.parentName}}}" "{{{ioEvent.context.extractFileTo.target}}}" \
 	--reactor.db.host=localhost \
-	--reactor.db.user=me \
-	--reactor.db.pw=123 \
+	--reactor.db.user=root \
+	--reactor.db.pw=root \
 	--reactor.db.name=io_event_reactor
 ```
 
@@ -129,7 +129,7 @@ node overwatch.js dir  \
 ## Usage sample one:
 
 Monitor one dir, when any file matching \*test1.zip is changed
-make a new target directory, extract the zip to the target dir, then move all files in the same directory
+make a new target directory, extract the zip/tgz to the target dir, then move all files in the same directory
 as triggering file to the target dir, and then insert a sql record
 of the event.
 
@@ -141,16 +141,16 @@ node overwatch.js dir  \
 	--monitor.dir=/tmp/bitsofinfo \
 	--monitor.stabilityThreshold=1000 \
 	--evaluator.events=add change \
-	--evaluator.regex=".*test1.zip" \
+	--evaluator.regex="(.*\.zip|.*\.gz|.*\.tgz)" \
 	--evaluator.reactors=mkdir extractFileTo moveAll sqlInsert \
 	--reactor.mkdir.target=/tmp/{{{ioEvent.context.timestamp}}}/{{{ioEvent.parentName}}}/bitsofinfo_target \
 	--reactor.extractFileTo.target=/tmp/{{{ioEvent.context.timestamp}}}/{{{ioEvent.parentName}}}/bitsofinfo_target \
 	--reactor.moveAll.target=/tmp/{{{ioEvent.context.timestamp}}}/{{{ioEvent.parentName}}}/bitsofinfo_target \
 	--reactor.sqlInsert.table=io_event \
-	--reactor.sqlInsert.columns=eventType fullPath filename parentPath timestamp uuid \
-	--reactor.sqlInsert.values="{{{ioEvent.eventType}}}" "{{{ioEvent.fullPath}}}" "{{{ioEvent.filename}}}" "{{{ioEvent.parentPath}}}" "{{{ioEvent.context.timestamp}}}" "{{{ioEvent.uuid}}}"\
+	--reactor.sqlInsert.columns=context eventType fullPath filename parentPath timestamp uuid parentName target \
+	--reactor.sqlInsert.values=extractFileToContext "{{{ioEvent.eventType}}}" "{{{ioEvent.fullPath}}}" "{{{ioEvent.filename}}}" "{{{ioEvent.parentPath}}}" "{{{ioEvent.context.timestamp}}}" "{{{ioEvent.uuid}}}" "{{{ioEvent.parentName}}}" "{{{ioEvent.context.extractFileTo.target}}}" \
 	--reactor.db.host=localhost \
-	--reactor.db.user=me \
-	--reactor.db.pw=123 \
+	--reactor.db.user=root \
+	--reactor.db.pw=root \
 	--reactor.db.name=io_event_reactor
 ```

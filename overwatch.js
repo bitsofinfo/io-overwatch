@@ -89,7 +89,8 @@ var argv = require("yargs")
               " {{ioEvent.parentPath}}\n" +
               " {{ioEvent.parentName}}\n" +
               " {{ioEvent.filename}}\n" +
-              " {{ioEvent.uuid}}\n"
+              " {{ioEvent.uuid}}\n" +
+              " {{ioEvent.context.[copyAll | copyFile | moveAll | moveFile | extractFileTo].target}}\n"
     )
 
     .argv;
@@ -212,35 +213,75 @@ function generateFileIoReactor(reactorType, reactorId, target) {
     var cmdGenerator = null;
 
     if (reactorType == "copyFile") {
-        cmdTemplates = [
-            "yes | cp {{{ioEvent.fullPath}}} " + target
-        ];
+        cmdGenerator = function(ioEvent) {
+            var targetParsed = Mustache.render(target,{'ioEvent':ioEvent});
+
+            // create a context variable for the reactor
+            // capturing the target of the command
+            ioEvent.context[reactorType] = {};
+            ioEvent.context[reactorType].target = targetParsed;
+
+            return ["yes | cp {{{ioEvent.fullPath}}} " + targetParsed];
+        };
 
     } else if (reactorType == "moveFile"){
-        cmdTemplates = [
-            "mv {{{ioEvent.fullPath}}} " + target
-        ];
+        cmdGenerator = function(ioEvent) {
+            var targetParsed = Mustache.render(target,{'ioEvent':ioEvent});
+
+            // create a context variable for the reactor
+            // capturing the target of the command
+            ioEvent.context[reactorType] = {};
+            ioEvent.context[reactorType].target = targetParsed;
+
+            return [Mustache.render("mv {{{ioEvent.fullPath}}} " + targetParsed,{'ioEvent':ioEvent})];
+        };
 
     } else if (reactorType == "copyAll"){
-        cmdTemplates = [
-            "yes | cp -R {{{ioEvent.parentPath}}}/* " + target
-        ];
+        cmdGenerator = function(ioEvent) {
+            var targetParsed = Mustache.render(target,{'ioEvent':ioEvent});
+
+            // create a context variable for the reactor
+            // capturing the target of the command
+            ioEvent.context[reactorType] = {};
+            ioEvent.context[reactorType].target = targetParsed;
+
+            return [Mustache.render("yes | cp -R {{{ioEvent.parentPath}}}/* " + targetParsed,{'ioEvent':ioEvent})];
+        };
 
     } else if (reactorType == "moveAll"){
-        cmdTemplates = [
-            "mv {{{ioEvent.parentPath}}}/* " + target
-        ];
+        cmdGenerator = function(ioEvent) {
+            var targetParsed = Mustache.render(target,{'ioEvent':ioEvent});
+
+            // create a context variable for the reactor
+            // capturing the target of the command
+            ioEvent.context[reactorType] = {};
+            ioEvent.context[reactorType].target = targetParsed;
+
+            return [Mustache.render("mv {{{ioEvent.parentPath}}}/* " + targetParsed,{'ioEvent':ioEvent})];
+        };
 
     } else if (reactorType == "mkdir"){
-        cmdTemplates = [
-            "mkdir -p " + target
-        ];
+        cmdGenerator = function(ioEvent) {
+            var targetParsed = Mustache.render(target,{'ioEvent':ioEvent});
+
+            // create a context variable for the reactor
+            // capturing the target of the command
+            ioEvent.context[reactorType] = {};
+            ioEvent.context[reactorType].target = targetParsed;
+
+            return ["mkdir -p " + targetParsed];
+        };
 
     } else if (reactorType == "extractFileTo") {
 
         cmdGenerator = function(ioEvent) {
 
             var targetParsed = Mustache.render(target,{'ioEvent':ioEvent});
+
+            // create a context variable for the reactor
+            // capturing the target of the command
+            ioEvent.context[reactorType] = {};
+            ioEvent.context[reactorType].target = targetParsed;
 
             var lcasefname = ioEvent.filename.toLowerCase();
 
@@ -253,7 +294,7 @@ function generateFileIoReactor(reactorType, reactorId, target) {
             } else {
                 throw new Error("extractFileTo Reactor only supports, tgz, gz, or zip files, you passed: " + lcasefname);
             }
-        }
+        };
     } else {
         throw new Error("Unknown reactorType: " + reactorType);
     }
