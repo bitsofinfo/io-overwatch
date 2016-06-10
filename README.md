@@ -11,6 +11,7 @@ then reacting by making directories, copying, moving, extracting files or insert
 
 ```
 >$ git clone https://github.com/bitsofinfo/io-overwatch.git
+>$ cd io-overwatch/
 >$ npm install .
 >$ node overwatch.js
 ```
