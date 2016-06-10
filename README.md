@@ -82,7 +82,7 @@ For certain options you can use the following variables:
  {{ioEvent.uuid}}
  ```
 
-## Usage samples table:
+## Usage samples table: (mysql)
 
 ```
 CREATE TABLE `io_event` (
@@ -105,6 +105,8 @@ as triggering file to the target dir, and then insert a sql record
 of the event.
 
 ```
+mkdir /tmp/bitsofinfo
+
 node overwatch.js dir  \
 	--logging.file=./overwatch.log \
 	--monitor.dir=/tmp/bitsofinfo \
@@ -132,6 +134,8 @@ as triggering file to the target dir, and then insert a sql record
 of the event.
 
 ```
+mkdir /tmp/bitsofinfo
+
 node overwatch.js dir  \
 	--logging.file=./overwatch.log \
 	--monitor.dir=/tmp/bitsofinfo \
