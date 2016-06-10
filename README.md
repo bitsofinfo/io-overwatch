@@ -7,9 +7,23 @@ then reacting by making directories, copying, moving, extracting files or insert
 
 ## Usage
 
-```
->$ node overwatch.js
+### Method 1
 
+```
+>$ git clone https://github.com/bitsofinfo/io-overwatch.git
+>$ npm install .
+>$ node overwatch.js
+```
+
+### Method 2
+```
+>$ mkdir overwatch
+>$ cd overwatch/
+>$ npm install io-overwatch
+>$ node node_modules/io-overwatch/overwatch.js
+```
+
+```
 Usage: overwatch.js <command> [options]
 
 Commands:
