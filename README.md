@@ -35,6 +35,9 @@ Options:
   --logging.level               Logging level
          [choices: "error", "warn", "info", "verbose", "info", "debug", "silly"]
                                                               [default: "debug"]
+  --logging.maxsize             Max size before rotation, in bytes
+                                                                [default: 10485760]
+  --logging.maxfiles            Max rotated files to retain          [default: 20]
   --monitor.dir                 Directory to monitor                  [required]
   --monitor.stabilityThreshold   Milliseconds for file sizes to remain constant
                                  before reacting.               [default: 30000]
