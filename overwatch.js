@@ -103,7 +103,7 @@ console.log(util.inspect(argv,{depth:10}));
 var winston = require('winston');
 winston.add(require('winston-daily-rotate-file'),
             {
-                filename: argv.logging.file,
+                filename: argv.logging.file
             });
 winston.level = argv.logging.level;
 
@@ -137,7 +137,7 @@ function generateSqlInsert(reactorId, sqlTemplates, sqlGenerator) {
               config: {
                     poolConfig : {
                        host     : argv.reactor.db.host,
-                       host     : argv.reactor.db.port,
+                       port     : argv.reactor.db.port,
                        user     : argv.reactor.db.user,
                        password : argv.reactor.db.pw,
                        database : argv.reactor.db.name,
