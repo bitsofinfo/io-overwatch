@@ -101,9 +101,10 @@ console.log(util.inspect(argv,{depth:10}));
 * Logging/Errors
 *********************************/
 var winston = require('winston');
-winston.add(require('winston-daily-rotate-file'),
+winston.add(winston.transports.File,
             {
-                filename: argv.logging.file
+                filename: argv.logging.file,
+                maxsize: 10485760 // 10mb
             });
 winston.level = argv.logging.level;
 
