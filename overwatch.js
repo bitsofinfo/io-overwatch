@@ -20,6 +20,12 @@ var argv = require("yargs")
         .describe('logging.level','Logging level')
         .choices('logging.level',['error','warn','info','verbose','info','debug','silly'])
 
+    .default('logging.maxsize',10485760)
+        .describe('logging.maxsize','Max size before rotation, in bytes')
+
+    .default('logging.maxfiles',20)
+        .describe('logging.maxfiles','Max rotated files to retain')
+
     .demand('monitor.dir')
         .describe('monitor.dir','Directory to monitor')
 
@@ -104,7 +110,8 @@ var winston = require('winston');
 winston.add(winston.transports.File,
             {
                 filename: argv.logging.file,
-                maxsize: 10485760 // 10mb
+                maxsize: argv.logging.maxsize,
+                maxfiles: argv.logging.maxfiles 
             });
 winston.level = argv.logging.level;
 
