@@ -111,7 +111,7 @@ winston.add(winston.transports.File,
             {
                 filename: argv.logging.file,
                 maxsize: argv.logging.maxsize,
-                maxfiles: argv.logging.maxfiles 
+                maxfiles: argv.logging.maxfiles
             });
 winston.level = argv.logging.level;
 
@@ -169,7 +169,7 @@ function getStatefulProcessCommandProxyInstance() {
     } else {
         statefulProcessCommandProxy = new StatefulProcessCommandProxy({
                                             name: "statefulProcessCommandProxy",
-                                            max: 2,
+                                            max: 1,
                                             min: 1,
                                             idleTimeoutMS: 300000,
                                             logFunction: logCallback,
