@@ -7,9 +7,9 @@
               --logging.file=./overwatch-sample-2.log \
               --monitor.dir=/tmp/bitsofinfo \
               --monitor.stabilityThreshold=1000 \
-              --evaluator.events=add change \
+              --evaluator.events="add change" \
               --evaluator.regex=(.+\.zip$|.+\.gz$|.+\.tgz$) \
-              --evaluator.reactors=mkdir extractFileTo moveAll sqlInsert \
+              --evaluator.reactors="mkdir extractFileTo moveAll sqlInsert" \
               --reactor.mkdir.target=/tmp/{{{ioEvent.context.timestamp}}}/{{{ioEvent.parentName}}}/bitsofinfo_target \
               --reactor.extractFileTo.target=/tmp/{{{ioEvent.context.timestamp}}}/{{{ioEvent.parentName}}}/bitsofinfo_target \
               --reactor.moveAll.target=/tmp/{{{ioEvent.context.timestamp}}}/{{{ioEvent.parentName}}}/bitsofinfo_target \
