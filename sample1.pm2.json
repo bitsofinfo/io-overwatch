@@ -9,7 +9,7 @@
       	      --monitor.stabilityThreshold=1000 \
       	      --evaluator.events=change \
       	      --evaluator.regex=.*test1.* \
-      	      --evaluator.reactors="mkdir moveAll sqlInsert" \
+      	      --evaluator.reactors=mkdir moveAll sqlInsert \
       	      --reactor.mkdir.target=/tmp/{{{ioEvent.context.timestamp}}}/bitsofinfo_target \
       	      --reactor.moveAll.target=/tmp/{{{ioEvent.context.timestamp}}}/bitsofinfo_target \
       	      --reactor.sqlInsert.table=io_event \
