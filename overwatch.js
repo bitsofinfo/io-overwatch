@@ -151,6 +151,8 @@ var EvaluatorUtil = require('io-event-reactor/ioReactor').EvaluatorUtil;
 * @param sqlGenerator
 */
 function generateSqlInsert(reactorId, sqlTemplates, sqlGenerator) {
+    const fs = require('fs');
+
     // MySQL SSL connection configuration
     var sslConfig = {};
     sslConfig = {...sslConfig, ...argv.reactor.db.ssl.ca ? {ca: fs.readFileSync(argv.reactor.db.ssl.ca)} : {}};
