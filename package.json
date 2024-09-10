@@ -1,15 +1,15 @@
 {
-    "name":"io-overwatch",
-    "version":"1.0.0-beta.11",
-    "description":"io-event-reactor based daemon for monitoring changes within one or more directories; then reacting by making directories, copying, moving, extracting files or inserting audit records into a database",
-    "main":"overwatch.js",
-    "directories":{
-        "test":"test"
+    "name": "io-overwatch",
+    "version": "1.0.0",
+    "description": "io-event-reactor based daemon for monitoring changes within one or more directories; then reacting by making directories, copying, moving, extracting files or inserting audit records into a database",
+    "main": "overwatch.js",
+    "directories": {
+        "test": "test"
     },
-    "scripts":{
-        "test":"mocha test/all.js"
+    "scripts": {
+        "test": "mocha test/all.js"
     },
-    "keywords":[
+    "keywords": [
         "io",
         "event",
         "monitor",
@@ -21,34 +21,34 @@
         "filesystem",
         "directories"
     ],
-  "dependencies": {
-        "stateful-process-command-proxy": "latest",
-        "mustache": "2.2.1",
+    "dependencies": {
         "dateformat": "1.0.12",
-        "winston-daily-rotate-file": "1.1.5",
-        "winston": "2.2.0",
-        "yargs": "4.8.0",
         "io-event-reactor": "latest",
         "io-event-reactor-plugin-chokidar": "latest",
         "io-event-reactor-plugin-mysql": "latest",
-        "io-event-reactor-plugin-shell-exec": "latest"
-  },
-    "devDependencies":{
-        "mocha":"latest"
+        "io-event-reactor-plugin-shell-exec": "latest",
+        "mustache": "2.2.1",
+        "stateful-process-command-proxy": "latest",
+        "winston": "2.2.0",
+        "winston-daily-rotate-file": "1.1.5",
+        "yargs": "4.8.0"
     },
-    "contributors":[
+    "devDependencies": {
+        "mocha": "latest"
+    },
+    "contributors": [
         {
-            "name":"bitsofinfo",
-            "url":"http://bitsofinfo.wordpress.com"
+            "name": "bitsofinfo",
+            "url": "http://bitsofinfo.wordpress.com"
         }
     ],
-    "license":"ISC",
-    "repository":{
-        "type":"git",
-        "url":"https://github.com/bitsofinfo/io-overwatch.git"
+    "license": "ISC",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/bitsofinfo/io-overwatch.git"
     },
-    "bugs":{
-        "url":"https://github.com/bitsofinfo/io-overwatch/issues"
+    "bugs": {
+        "url": "https://github.com/bitsofinfo/io-overwatch/issues"
     },
-    "homepage":"https://github.com/bitsofinfo/io-overwatch"
+    "homepage": "https://github.com/bitsofinfo/io-overwatch"
 }
