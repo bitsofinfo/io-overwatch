@@ -67,7 +67,7 @@ Options:
                                 apply.                   [array] [default: null]
   --reactor.shell.uid           uid to run shell commands as
                                                            [default: 2146091417]
-  --reactor.shell.gid                 gid to run shell commands as
+  --reactor.shell.gid           gid to run shell commands as
                                                            [default: 1028219364]
   --reactor.db.host             database host                         [required]
   --reactor.db.port             database port                    [default: 3306]
