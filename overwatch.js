@@ -87,7 +87,18 @@ var argv = require("yargs")
         .describe('reactor.db.pw','database pw')
     .default('reactor.db.name',null)
         .describe('reactor.db.name','database name')
-
+    .default('reactor.db.ssl.ca',null)
+        .describe('reactor.db.ssl.ca','full path to ca certificate')
+    .default('reactor.db.ssl.cert',null)
+      .describe('reactor.db.ssl.cert','full path to certificate')
+    .default('reactor.db.ssl.key',null)
+      .describe('reactor.db.ssl.key','full path to private key')
+    .default('reactor.db.ssl.minVersion',null)
+      .describe('reactor.db.ssl.minVersion','min ssl protocal version')
+    .default('reactor.db.ssl.maxVersion',null)
+      .describe('reactor.db.ssl.maxVersion','max ssl protocal version')
+    .default('reactor.db.ssl.rejectUnauthorized',null)
+      .describe('reactor.db.ssl.rejectUnauthorized','verify certificate against suppied CAs and hostname')      
     .epilogue("For certain options you can use the following variables:\n" +
               " {{ioEvent.context.timestamp}}\n" +
               " {{ioEvent.eventType}}\n" +
@@ -140,6 +151,16 @@ var EvaluatorUtil = require('io-event-reactor/ioReactor').EvaluatorUtil;
 * @param sqlGenerator
 */
 function generateSqlInsert(reactorId, sqlTemplates, sqlGenerator) {
+    // MySQL SSL connection configuration
+    var sslConfig = {};
+    sslConfig = {...sslConfig, ...argv.reactor.db.ssl.ca ? {ca: fs.readFileSync(argv.reactor.db.ssl.ca)} : {}};
+    sslConfig = {...sslConfig, ...argv.reactor.db.ssl.cert ? {cert: fs.readFileSync(argv.reactor.db.ssl.cert)} : {}};
+    sslConfig = {...sslConfig, ...argv.reactor.db.ssl.key ? {key: fs.readFileSync(argv.reactor.db.ssl.key)} : {}};
+    sslConfig = {...sslConfig, ...argv.reactor.db.ssl.minVersion ? {maxVersion: argv.reactor.db.ssl.minVersion} : {}};
+    sslConfig = {...sslConfig, ...argv.reactor.db.ssl.maxVersion ? {minVersion: argv.reactor.db.ssl.maxVersion} : {}};
+    sslConfig = {...sslConfig, ...argv.reactor.db.ssl.rejectUnauthorized ? {rejectUnauthorized: argv.reactor.db.ssl.rejectUnauthorized} : {}};
+
+
     return {  id: reactorId,
               plugin: "io-event-reactor-plugin-mysql",
               config: {
@@ -149,6 +170,7 @@ function generateSqlInsert(reactorId, sqlTemplates, sqlGenerator) {
                        user     : argv.reactor.db.user,
                        password : argv.reactor.db.pw,
                        database : argv.reactor.db.name,
+                       ssl      : sslConfig,
                        multipleStatements: true,
                        connectionLimit: 2
                     },

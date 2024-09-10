@@ -74,6 +74,13 @@ Options:
   --reactor.db.user             database user                         [required]
   --reactor.db.pw               database pw                           [required]
   --reactor.db.name             database name                         [required]
+  --reactor.db.ssl.ca           database ssl ca certificate      [default: null]
+  --reactor.db.ssl.cert         database ssl certificate         [default: null]
+  --reactor.db.ssl.key          database ssl private key         [default: null] 
+  --reactor.db.ssl.minVersion   database ssl min version         [default: null]
+  --reactor.db.ssl.maxVersion   database ssl max version         [default: null]
+  --reactor.db.ssl.rejectUnauthorized 
+                                database name              [default: null] 
 
 For certain options you can use the following variables:
  {{{ioEvent.context.timestamp}}}
